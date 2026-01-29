@@ -1,12 +1,5 @@
 int lampPin = 1;
 
-// void lamp_func()
-// {
-//     if (lamp_sost = LOW) lamp_sost = HIGH;
-//     if (lamp_sost = HIGH)lamp_sost = LOW;
-//     digitalWrite(lamp, lamp_sost);
-// }
-
 class Lamp : public Device{
     private:
         bool enabled = false;
@@ -14,7 +7,7 @@ class Lamp : public Device{
         int hour = 7; // 7 утра
         int minute = 0;
     void init(){
-        pinMode(lamp, OUTPUT);
+        pinMode(pin, OUTPUT);
     }
     void run(){
         if(getHour()==hour and getMinute()==minute and getSecond()<=1){
@@ -29,4 +22,4 @@ class Lamp : public Device{
     }
 }
 
-lamp = Lamp(lampPin, 500);
+Lamp lamp = Lamp(lampPin, 500);

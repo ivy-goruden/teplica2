@@ -26,4 +26,4 @@ class waterMotor : public Device{
     }
 }
 
-motor = waterMotor(motorPin, motorPeriod);
+waterMotor motor = waterMotor(motorPin, motorPeriod);
