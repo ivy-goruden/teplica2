@@ -1,5 +1,8 @@
-int motorPin = 7;
-int motorPeriod = 500;
+#pragma once
+
+#include "Device.h"
+#include "SoilHumidity.h"
+#include <TimeLib.h>
 
 class waterMotor : public Device {
 private:
@@ -8,11 +11,14 @@ private:
 public:
   int hour = 19;
   int minute = 0;
-  void init() { pinMode(pin, OUTPUT); }
+
   waterMotor(int p, unsigned long per, Soil_Humidity soilHumSensor)
       : Device(p, per), soilHumidity(soilHumSensor) {}
+
+  void init() { pinMode(pin, OUTPUT); }
+
   void run() {
-    if (hour() == this->hour && minute() == this->minute && second() <= 1 &&
+    if (::hour() == hour && ::minute() == minute && ::second() <= 1 &&
         needWater()) {
       digitalWrite(pin, HIGH);
       enabled = true;
@@ -24,5 +30,6 @@ public:
       prev_millis = millis();
     }
   }
+
   bool needWater() { return soilHumidity.needWater(); }
 };

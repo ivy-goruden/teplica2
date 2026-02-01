@@ -1,4 +1,6 @@
-int soilHumidityPin = A3;
+#pragma once
+
+#include "Sensor.h"
 
 class Soil_Humidity : public Sensor {
 private:
@@ -9,7 +11,17 @@ public:
       : Sensor(p, per), minHumidity(minHum) {
     name = "Влажность почвы";
   }
-  void init() { pinMode(pin, INPUT); }
-  String getValue() { return String(analogRead(pin)); }
-  bool needWater() { return analogRead(pin) <= minHumidity; }
+
+  void init() {
+    pinMode(pin, INPUT);
+  }
+
+  String getValue() {
+    return String(analogRead(pin));
+  }
+
+  bool needWater() {
+    return analogRead(pin) <= minHumidity;
+  }
 };
+

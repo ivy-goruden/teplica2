@@ -1,29 +1,4 @@
-class Service {
-protected:
-  int pin;
-  unsigned long prev_millis;
-  unsigned long period;
-  Service(int p, unsigned long per) : pin(p), prev_millis(0), period(per) {}
-  virtual void init() = 0;
-  bool isTime() { return millis() >= prev_millis + period; }
-};
-
-class Sensor : public Service {
-public:
-  String name;
-  Sensor(int p, unsigned long per) : Service(p, per), name("") {}
-  virtual String getValue() = 0;
-};
-
-class Device : public Service {
-protected:
-  bool enabled;
-
-public:
-  Device(int p, unsigned long per) : Service(p, per), enabled(false) {}
-  virtual void run() = 0;
-  bool isWorking() { return enabled; }
-};
+#include "all_objects.h"
 
 Soil_Humidity soilHumidity(soilHumidityPin, 2000, minSoilHumidity);
 Air_Humidity airHumidity(dhtPin, 2000);
@@ -36,7 +11,9 @@ waterMotor motor(motorPin, motorPeriod, soilHumidity);
 Sensor *sensors[] = {&airHumidity, &thermometer, &soilHumidity, &waterLevel};
 const int SENSORS_COUNT = sizeof(sensors) / sizeof(sensors[0]);
 
-Device *devices[] = {&lamp, &motor};
+LCD lcd(1000, sensors, SENSORS_COUNT);
+
+Device *devices[] = {&lamp, &motor, &lcd};
 const int DEVICES_COUNT = sizeof(devices) / sizeof(devices[0]);
 
 void initServices() {
@@ -46,8 +23,7 @@ void initServices() {
   for (int i = 0; i < DEVICES_COUNT; ++i) {
     devices[i]->init();
   }
-  Time time;
-  time.init();
+  initTime();
 }
 
 void runDevices() {

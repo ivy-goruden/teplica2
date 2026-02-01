@@ -1,16 +1,22 @@
-#include <TroykaDHT.h>
+#pragma once
 
-int dhtPin = 46;
+#include "Sensor.h"
+#include <TroykaDHT.h>
 
 class Thermometer : public Sensor {
 private:
   DHT dht;
 
 public:
-  Thermometer(int p, unsigned long per) : Sensor(p, per), dht(p, DHT11) {
+  Thermometer(int p, unsigned long per)
+      : Sensor(p, per), dht(p, DHT11) {
     name = "Температура";
   }
-  void init() { dht.begin(); }
+
+  void init() {
+    dht.begin();
+  }
+
   String getValue() {
     dht.read();
     switch (dht.getState()) {
@@ -32,10 +38,15 @@ private:
   DHT dht;
 
 public:
-  Air_Humidity(int p, unsigned long per) : Sensor(p, per), dht(p, DHT11) {
+  Air_Humidity(int p, unsigned long per)
+      : Sensor(p, per), dht(p, DHT11) {
     name = "Влажность воздуха";
   }
-  void init() { dht.begin(); }
+
+  void init() {
+    dht.begin();
+  }
+
   String getValue() {
     dht.read();
     switch (dht.getState()) {
@@ -51,3 +62,4 @@ public:
     return "";
   }
 };
+

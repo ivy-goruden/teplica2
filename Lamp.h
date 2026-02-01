@@ -1,13 +1,19 @@
-int lampPin = 1;
+#pragma once
+
+#include "Device.h"
+#include <TimeLib.h>
 
 class Lamp : public Device {
 public:
-  int hour = 7; // 7 утра
+  int hour = 7;
   int minute = 0;
-  void init() { pinMode(pin, OUTPUT); }
+
   Lamp(int p, unsigned long per) : Device(p, per) {}
+
+  void init() { pinMode(pin, OUTPUT); }
+
   void run() {
-    if (hour() == this->hour && minute() == this->minute && second() <= 1) {
+    if (::hour() == hour && ::minute() == minute && ::second() <= 1) {
       digitalWrite(pin, HIGH);
       enabled = !enabled;
       prev_millis = millis();
