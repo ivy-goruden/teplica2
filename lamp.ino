@@ -1,25 +1,21 @@
 int lampPin = 1;
 
-class Lamp : public Device{
-    private:
-        bool enabled = false;
-    public:
-        int hour = 7; // 7 утра
-        int minute = 0;
-    void init(){
-        pinMode(pin, OUTPUT);
+class Lamp : public Device {
+public:
+  int hour = 7; // 7 утра
+  int minute = 0;
+  void init() { pinMode(pin, OUTPUT); }
+  Lamp(int p, unsigned long per) : Device(p, per) {}
+  void run() {
+    if (hour() == this->hour && minute() == this->minute && second() <= 1) {
+      digitalWrite(pin, HIGH);
+      enabled = !enabled;
+      prev_millis = millis();
     }
-    void run(){
-        if(getHour()==hour and getMinute()==minute and getSecond()<=1){
-            digitalWrite(pin, lampstate);
-            enabled = !enabled;
-            prev_millis=getMillis();
-        }
-        if (isTime() and enabled) {
-            digitalWrite(pin, LOW);
-            prev_millis=getMillis();
-        }
+    if (isTime() && enabled) {
+      digitalWrite(pin, LOW);
+      enabled = false;
+      prev_millis = millis();
     }
-}
-
-Lamp lamp = Lamp(lampPin, 500);
+  }
+};

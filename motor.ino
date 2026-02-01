@@ -1,29 +1,28 @@
 int motorPin = 7;
 int motorPeriod = 500;
 
-class waterMotor : public Device{
-  public:
-    int hour = 19;
-    int minute = 0;
-    bool enabled = false;
-    void init(){
-      pinMode(pin, OUTPUT);
-    }
-    void run(){
-      if(getHour()==hour and getMinute()==minute and getSecond()<=1 and needWater()){
-        water_motor(levelSensor);
-        enabled = true;
-        prev_millis=getMillis();
-      }
-      if (isTime() and enabled) {
-        digitalWrite(pin, LOW);
-        prev_millis=getMillis();
-      }
-    }
-    bool needWater(){
-      //unimplemented
-      return true;
-    }
-}
+class waterMotor : public Device {
+private:
+  Soil_Humidity soilHumidity;
 
-waterMotor motor = waterMotor(motorPin, motorPeriod);
+public:
+  int hour = 19;
+  int minute = 0;
+  void init() { pinMode(pin, OUTPUT); }
+  waterMotor(int p, unsigned long per, Soil_Humidity soilHumSensor)
+      : Device(p, per), soilHumidity(soilHumSensor) {}
+  void run() {
+    if (hour() == this->hour && minute() == this->minute && second() <= 1 &&
+        needWater()) {
+      digitalWrite(pin, HIGH);
+      enabled = true;
+      prev_millis = millis();
+    }
+    if (isTime() && enabled) {
+      digitalWrite(pin, LOW);
+      enabled = false;
+      prev_millis = millis();
+    }
+  }
+  bool needWater() { return soilHumidity.needWater(); }
+};

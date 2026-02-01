@@ -1,12 +1,15 @@
-int humidityPin = A3;
+int soilHumidityPin = A3;
 
 class Soil_Humidity : public Sensor {
+private:
+  int minHumidity;
+
 public:
-  char name = "Влажность почвы";
-  void init() {
-    pinMode(pin, INPUT);
+  Soil_Humidity(int p, unsigned long per, int minHum)
+      : Sensor(p, per), minHumidity(minHum) {
+    name = "Влажность почвы";
   }
-  char[] getValue() {
-    return analogRead(pin)
-  }
-}
+  void init() { pinMode(pin, INPUT); }
+  String getValue() { return String(analogRead(pin)); }
+  bool needWater() { return analogRead(pin) <= minHumidity; }
+};
