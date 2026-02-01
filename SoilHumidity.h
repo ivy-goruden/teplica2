@@ -9,7 +9,7 @@ private:
 public:
   Soil_Humidity(int p, unsigned long per, int minHum)
       : Sensor(p, per), minHumidity(minHum) {
-    name = "Влажность почвы";
+    name = "Soil Humidity";
   }
 
   void init() {

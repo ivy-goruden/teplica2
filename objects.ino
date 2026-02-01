@@ -4,14 +4,14 @@ Soil_Humidity soilHumidity(soilHumidityPin, 2000, minSoilHumidity);
 Air_Humidity airHumidity(dhtPin, 2000);
 Thermometer thermometer(dhtPin, 2000);
 Piezo piezo(piezoPin, 0);
-Water_Level waterLevel(echoPin, trigPin, 2000, piezo);
+Water_Level waterLevel(echoPin, trigPin, 2000, piezo, water_max);
 Lamp lamp(lampPin, 500);
 waterMotor motor(motorPin, motorPeriod, soilHumidity);
 
 Sensor *sensors[] = {&airHumidity, &thermometer, &soilHumidity, &waterLevel};
 const int SENSORS_COUNT = sizeof(sensors) / sizeof(sensors[0]);
 
-LCD lcd(1000, sensors, SENSORS_COUNT);
+LCD lcd(1500, sensors, SENSORS_COUNT);
 
 Device *devices[] = {&lamp, &motor, &lcd};
 const int DEVICES_COUNT = sizeof(devices) / sizeof(devices[0]);

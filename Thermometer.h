@@ -8,14 +8,11 @@ private:
   DHT dht;
 
 public:
-  Thermometer(int p, unsigned long per)
-      : Sensor(p, per), dht(p, DHT11) {
-    name = "Температура";
+  Thermometer(int p, unsigned long per) : Sensor(p, per), dht(p, DHT11) {
+    name = "Temperature";
   }
 
-  void init() {
-    dht.begin();
-  }
+  void init() { dht.begin(); }
 
   String getValue() {
     dht.read();
@@ -38,14 +35,11 @@ private:
   DHT dht;
 
 public:
-  Air_Humidity(int p, unsigned long per)
-      : Sensor(p, per), dht(p, DHT11) {
-    name = "Влажность воздуха";
+  Air_Humidity(int p, unsigned long per) : Sensor(p, per), dht(p, DHT11) {
+    name = "Air Humidity";
   }
 
-  void init() {
-    dht.begin();
-  }
+  void init() { dht.begin(); }
 
   String getValue() {
     dht.read();
@@ -62,4 +56,3 @@ public:
     return "";
   }
 };
-

@@ -1,16 +1,15 @@
 #pragma once
 
-#include "Sensor.h"
 #include "Piezo.h"
+#include "Sensor.h"
 
 class Water_Level : public Sensor {
 public:
   Water_Level(int echoPinValue, int trigPinValue, unsigned long per,
-              Piezo piezoDevice)
-      : Sensor(echoPinValue, per), echoPin(echoPinValue),
-        trigPin(trigPinValue), oldLevelSensor(0), water(0), water_max(11),
-        piezo(piezoDevice) {
-    name = "Бак наполнен на";
+              Piezo piezoDevice, int water_max)
+      : Sensor(echoPinValue, per), echoPin(echoPinValue), trigPin(trigPinValue),
+        oldLevelSensor(0), water(0), water_max(water_max), piezo(piezoDevice) {
+    name = "Water level";
   }
 
   void init() {
@@ -29,7 +28,7 @@ public:
       } else {
         levelSensor = oldLevelSensor;
       }
-      water = int(100 - (levelSensor / water_max * 100));
+      water = min(max(int(100 - (levelSensor / water_max * 100)), 0), 100);
       checkWater(water);
       prev_millis = millis();
     }
@@ -69,4 +68,3 @@ private:
     }
   }
 };
-

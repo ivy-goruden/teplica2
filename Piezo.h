@@ -20,6 +20,7 @@ public:
       }
       enabled = !enabled;
       prev_millis = millis();
+      Serial.println("Running piezo");
     }
   }
 };

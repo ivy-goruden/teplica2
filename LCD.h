@@ -28,6 +28,9 @@ public:
       lcd.setCursor(0, index % 4);
       String text =
           String(sensors[index]->name + ": " + sensors[index]->getValue());
+      if (text.length() > 20) {
+        text = text.substring(0, 20);
+      }
       Serial.println(text);
       lcd.print(text);
       prev_millis = millis();
