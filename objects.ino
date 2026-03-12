@@ -1,14 +1,16 @@
 #include "all_objects.h"
 
+RTC_Manager rtcManager;
+
 Soil_Humidity soilHumidity(soilHumidityPin, 2000, minSoilHumidity);
 Air_Humidity airHumidity(dhtPin, 2000);
 Thermometer thermometer(dhtPin, 2000);
-Piezo piezo(piezoPin, 0);
-Water_Level waterLevel(echoPin, trigPin, 2000, piezo, water_max);
 Lamp lamp(lampPin, 500);
-waterMotor motor(motorPin, motorPeriod, soilHumidity);
+Bobber bobber(bobberPin, 1000);
+Piezo piezo(piezoPin, 1000, bobber);
+waterMotor motor(motorPin, motorPeriod, soilHumidity, bobber);
 
-Sensor *sensors[] = {&airHumidity, &thermometer, &soilHumidity, &waterLevel};
+Sensor *sensors[] = {&airHumidity, &thermometer, &soilHumidity, &bobber};
 const int SENSORS_COUNT = sizeof(sensors) / sizeof(sensors[0]);
 
 LCD lcd(1500, sensors, SENSORS_COUNT);
@@ -23,7 +25,7 @@ void initServices() {
   for (int i = 0; i < DEVICES_COUNT; ++i) {
     devices[i]->init();
   }
-  initTime();
+  rtcManager.init();
 }
 
 void runDevices() {

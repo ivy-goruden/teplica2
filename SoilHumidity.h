@@ -12,16 +12,9 @@ public:
     name = "Soil Humidity";
   }
 
-  void init() {
-    pinMode(pin, INPUT);
-  }
+  void init() { pinMode(pin, INPUT); }
 
-  String getValue() {
-    return String(analogRead(pin));
-  }
+  String getValue() { return String(analogRead(pin)); }
 
-  bool needWater() {
-    return analogRead(pin) <= minHumidity;
-  }
+  bool needWater() { return analogRead(pin) > minHumidity; }
 };
-

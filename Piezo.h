@@ -1,27 +1,24 @@
 #pragma once
 
+#include "Bobber.h"
 #include "Device.h"
 
 class Piezo : public Device {
 public:
-  Piezo(int p, unsigned long per)
-      : Device(p, per) {}
-
-  void init() {
-    pinMode(pin, OUTPUT);
-  }
+  Piezo(int p, unsigned long per, Bobber &b) : Device(p, per), bobber(b) {}
+  Bobber &bobber;
+  void init() { pinMode(pin, OUTPUT); }
 
   void run() {
     if (isTime()) {
-      if (enabled) {
+      if (bobber.enoughWater()) {
         noTone(pin);
-      } else {
+        enabled = false;
+      } else if (!enabled) {
         tone(pin, 10);
+        enabled = true;
       }
-      enabled = !enabled;
       prev_millis = millis();
-      Serial.println("Running piezo");
     }
   }
 };
-
