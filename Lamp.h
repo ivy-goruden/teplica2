@@ -5,25 +5,25 @@
 
 class Lamp : public Device {
 public:
-  int hour_start = 6;
-  int minute_start = 0;
-  int hour_end = 22;
-  int minute_end = 0;
+  int hour = 7;
+  int minute = 0;
 
   Lamp(int p, unsigned long per) : Device(p, per) {}
 
   void init() { pinMode(pin, OUTPUT); }
 
   void run() {
-    if ((::hour() > hour_start || ::hour() < hour_end) && !enabled) {
+    if (::hour() == hour && ::minute() == minute && ::second() <= 1) {
       digitalWrite(pin, HIGH);
-      enabled = true;
+      enabled = !enabled;
       prev_millis = millis();
+      Serial.write("Lamp is on");
     }
-    if ((::hour() < hour_start || ::hour() > hour_end) && enabled) {
+    if (isTime() && enabled) {
       digitalWrite(pin, LOW);
       enabled = false;
       prev_millis = millis();
+      Serial.write("Lamp is off");
     }
   }
 };

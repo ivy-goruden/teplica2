@@ -45,12 +45,12 @@ time_t getTime() {
   return 0;
 }
 
-void initTime() {
-  while (Ethernet.begin(ntpMac) == 0) {
-    Serial.println("Ethernet is not configured");
-    delay(1000);
-  }
-  Serial.println("Ethernet is configured");
-  ethernet_UDP.begin(ntpLocalPort);
-  setSyncProvider(getTime);
-}
+//void initTime() {
+//  while (Ethernet.begin(ntpMac) == 0) {
+//    Serial.println("Ethernet is not configured");
+//    delay(1000);
+//  }
+//  Serial.println("Ethernet is configured");
+//  ethernet_UDP.begin(ntpLocalPort);
+//  setSyncProvider(getTime);
+//}
